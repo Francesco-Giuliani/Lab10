@@ -4,8 +4,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import it.polito.tdp.porto.model.Author;
+import it.polito.tdp.porto.model.AutorePaper;
 import it.polito.tdp.porto.model.Paper;
 
 public class PortoDAO {
@@ -65,4 +69,53 @@ public class PortoDAO {
 			throw new RuntimeException("Errore Db");
 		}
 	}
+
+	public List<Author> getAllAutori(Map<Integer, Author> authorIdMap) {
+		final String sql = "SELECT * FROM author";
+
+		List<Author>res = new ArrayList<>();
+		try {
+			Connection conn = DBConnect.getConnection();
+			PreparedStatement st = conn.prepareStatement(sql);
+
+			ResultSet rs = st.executeQuery();
+
+			while (rs.next()) {
+
+				int id = rs.getInt("id");
+				Author old = authorIdMap.get(id);
+				if(old == null) {
+					old = new Author(id, rs.getString("lastname"), rs.getString("firstname"));
+					authorIdMap.put(id, old);
+				}
+				res.add(old);
+			}
+			st.close();
+			conn.close();
+			
+			return res;
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new RuntimeException("Errore Db");
+		}
+	}
+
+	public List<AutorePaper> getCollaborazioni() {
+		
+		final String sql = "SELECT * FROM creator ";
+		
+		List<AutorePaper> res;
+		
+		select c1.eprintid as artid, c1.authorid as ida1, c2.authorid as ida2
+		from creator as c1, creator as c2
+		where c1.eprintid = c2.eprintid and c1.authorid < c2.authorid
+		order by artid
+		
+		
+		
+		return null;
+	}
+	//fai lista coppie autore autore con joins su due tab creator ponendo authorid1<authorid2
+	
 }

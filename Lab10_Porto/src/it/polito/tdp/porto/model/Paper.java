@@ -66,10 +66,11 @@ public class Paper {
 		this.types = types;
 	}
 
+	
+
 	@Override
 	public String toString() {
-		return "Paper [eprintid=" + eprintid + ", title=" + title + ", issn=" + issn + ", publication=" + publication
-				+ ", type=" + type + ", types=" + types + "]";
+		return eprintid + ", " + title + ", " + issn + ", " + publication + ", " + type + ", " + types+"; ";
 	}
 
 	@Override
