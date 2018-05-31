@@ -10,6 +10,7 @@ import java.util.Map;
 
 import it.polito.tdp.porto.model.Author;
 import it.polito.tdp.porto.model.AutorePaper;
+import it.polito.tdp.porto.model.Collaborazioni;
 import it.polito.tdp.porto.model.Paper;
 
 public class PortoDAO {
@@ -103,14 +104,24 @@ public class PortoDAO {
 
 	public List<AutorePaper> getCollaborazioni() {
 		
-		final String sql = "SELECT * FROM creator ";
+		final String sql = "select c1.eprintid as artid, c1.authorid as ida1, c2.authorid as ida2\n" + 
+				"from creator as c1, creator as c2\n" + 
+				"where c1.eprintid = c2.eprintid and c1.authorid < c2.authorid\n" + 
+				"order by artid";
 		
-		List<AutorePaper> res;
+		List<Collaborazioni> res;
 		
-		select c1.eprintid as artid, c1.authorid as ida1, c2.authorid as ida2
-		from creator as c1, creator as c2
-		where c1.eprintid = c2.eprintid and c1.authorid < c2.authorid
-		order by artid
+		try {
+			Connection conn = DBConnect.getConnection();
+			PreparedStatement st = conn.prepareStatement(sql);
+			
+			ResultSet rs = st.executeQuery();
+			
+			while(rs.next()) {
+				
+			}
+		}
+		
 		
 		
 		
