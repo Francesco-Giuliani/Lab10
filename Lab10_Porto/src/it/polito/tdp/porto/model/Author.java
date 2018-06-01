@@ -34,7 +34,7 @@ public class Author {
 
 	@Override
 	public String toString() {
-		return id + ", " + lastname + ", " + firstname +"; ";
+		return id + " " + lastname + " " + firstname;
 	}
 
 	@Override

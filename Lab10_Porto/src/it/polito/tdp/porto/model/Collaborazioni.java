@@ -3,6 +3,8 @@ package it.polito.tdp.porto.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jgrapht.graph.DefaultEdge;
+
 public class Collaborazioni {
 	
 	private String id;
@@ -15,7 +17,10 @@ public class Collaborazioni {
 		this.aut1 = aut1;
 		this.aut2 = aut2;
 		this.paperIds = new ArrayList<>();
-		this.id = "A1:"+this.aut1.getId()+"-A2:"+this.aut2.getId();
+		if(aut1.getId()<=aut2.getId())
+			this.id = "A1:"+this.aut1.getId()+"-A2:"+this.aut2.getId();
+		else
+			this.id = "A1:"+this.aut2.getId()+"-A2:"+this.aut1.getId();
 	}
 	@Override
 	public int hashCode() {
@@ -70,4 +75,9 @@ public class Collaborazioni {
 		if(!this.paperIds.contains(paperId))
 			this.paperIds.add(paperId);
 	}
+	@Override
+	public String toString() {
+		return "{"+id + " (" + aut1 + ") (" + aut2 + ") (" + paperIds + ")}";
+	}
+	
 }
